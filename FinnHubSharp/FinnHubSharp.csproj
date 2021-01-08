@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>FinnHubSharp</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Shravan Jambukesan</Authors>
+    <Company>Pseudo Markets</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>.NET Standard client for FinnHub finance APIs</Description>
+    <Copyright>(c) 2020 Pseudo Markets</Copyright>
+    <PackageProjectUrl>https://github.com/pseudomarkets/FinnHubSharp</PackageProjectUrl>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageReleaseNotes>* Initial release</PackageReleaseNotes>
+    <PackageTags>FinnHub</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+</Project>
