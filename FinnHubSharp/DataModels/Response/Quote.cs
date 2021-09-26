@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FinnHubSharp.DataModels
+namespace FinnHubSharp.DataModels.Response
 {
     public class Quote
     {

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FinnHubSharp" Version="1.0.0" />
+    <ProjectReference Include="..\FinnHubSharp\FinnHubSharp.csproj" />
   </ItemGroup>
 
 </Project>
