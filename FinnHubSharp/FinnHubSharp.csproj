@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>FinnHubSharp</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.2</Version>
     <Authors>Shravan Jambukesan</Authors>
     <Company>Pseudo Markets</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>.NET Standard client for FinnHub finance APIs</Description>
-    <Copyright>(c) 2020 Pseudo Markets</Copyright>
+    <Copyright>(c) 2020 - 2021 Pseudo Markets</Copyright>
     <PackageProjectUrl>https://github.com/pseudomarkets/FinnHubSharp</PackageProjectUrl>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageReleaseNotes>* Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>* Added support for streaming data</PackageReleaseNotes>
     <PackageTags>FinnHub</PackageTags>
     <LangVersion>8</LangVersion>
   </PropertyGroup>

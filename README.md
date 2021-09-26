@@ -1,19 +1,22 @@
 # FinnHubSharp
-.NET Standard client for accessing FinnHub.io finance APIs
+.NET Standard client for accessing FinnHub.io finance APIs, including streaming data via WebSocket
 
 # Requirements
-* .NET Standard 2.0
-* Newtonsoft.JSON
+* .NET Standard 2.1
 
 # Usage
 
-`using FinnHubSharp;`
+`using FinnHubSharp.DataModels.Request;`
 
-`FinnHubClient client = new FinnHubClient("YOUR_API_KEY");`
+`using FinnHubSharp.Implementations;`
+
+`using FinnHubSharp.Logging;`
+
+`var client = new FinnHubClient(new HttpClient(), "YOUR_API_KEY", new NullLogger<FinnHubSharpLogger>());`
 
 `var quote = await client.GetQuoteAsync("AAPL");`
 
-`var price = quote.CurrentPrice;`
+`double price = quote.CurrentPrice;`
 
 
 # NuGet

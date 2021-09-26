@@ -1,7 +1,4 @@
-using System;
-using System.Net;
 using System.Net.Http;
-using Microsoft.Extensions.Logging;
 
 namespace FinnHubSharp.Logging
 {

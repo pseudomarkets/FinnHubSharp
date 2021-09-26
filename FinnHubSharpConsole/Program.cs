@@ -2,14 +2,10 @@
 using System.Linq;
 using System.Net.Http;
 using System.Net.WebSockets;
-using System.Threading;
 using System.Threading.Tasks;
-using FinnHubSharp;
 using FinnHubSharp.DataModels.Request;
 using FinnHubSharp.Implementations;
-using FinnHubSharp.Interfaces;
 using FinnHubSharp.Logging;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 
