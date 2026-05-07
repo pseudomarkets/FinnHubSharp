@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FinnHubSharp.DataModels.Request;
 using FinnHubSharp.DataModels.Response;
+using FinnHubSharp.DataModels.Response.Raw;
 using FinnHubSharp.Interfaces;
 using Newtonsoft.Json;
 
@@ -17,6 +18,7 @@ namespace FinnHubSharp.Implementations
     {
         private readonly string _apiKey;
         private readonly ClientWebSocket _webSocketClient;
+        private readonly string _baseUrl = "wss://ws.finnhub.io";
 
         public FinnHubStreamerClient(ClientWebSocket webSocketClient, string apiKey)
         {
@@ -31,7 +33,7 @@ namespace FinnHubSharp.Implementations
             {
                 using (var socket = _webSocketClient)
                 {
-                    await socket.ConnectAsync(new Uri($"wss://ws.finnhub.io?token={_apiKey}"), CancellationToken.None);
+                    await socket.ConnectAsync(new Uri($"{_baseUrl}?token={_apiKey}"), CancellationToken.None);
                     foreach (var sub in subscriptions.ToList())
                     {
                         await SendSubscription(socket, JsonConvert.SerializeObject(sub));

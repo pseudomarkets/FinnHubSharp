@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace FinnHubSharp.DataModels.Response
+namespace FinnHubSharp.DataModels.Response.Raw
 {
     public class SymbolInfo
     {
