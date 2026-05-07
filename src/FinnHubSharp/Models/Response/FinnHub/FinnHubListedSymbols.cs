@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using FinnHubSharp.DataModels.Response.Raw;
+using FinnHubSharp.Models.Response.Raw;
 
-namespace FinnHubSharp.DataModels.Response.FinnHub
+namespace FinnHubSharp.Models.Response.FinnHub
 {
     public class FinnHubListedSymbols : FinnHubResponseBase
     {

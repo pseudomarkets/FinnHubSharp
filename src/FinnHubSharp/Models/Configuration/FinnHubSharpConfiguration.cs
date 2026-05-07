@@ -1,4 +1,4 @@
-namespace FinnHubSharp.DataModels.Configuration
+namespace FinnHubSharp.Models.Configuration
 {
     public class FinnHubSharpConfiguration
     {

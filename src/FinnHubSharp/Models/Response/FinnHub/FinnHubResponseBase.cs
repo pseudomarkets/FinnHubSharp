@@ -1,4 +1,4 @@
-namespace FinnHubSharp.DataModels.Response.FinnHub
+namespace FinnHubSharp.Models.Response.FinnHub
 {
     public class FinnHubResponseBase
     {

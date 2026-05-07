@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinnHubSharp.DataModels.Response;
-using FinnHubSharp.DataModels.Response.FinnHub;
+using FinnHubSharp.Models.Response.FinnHub;
 
 namespace FinnHubSharp.Interfaces
 {

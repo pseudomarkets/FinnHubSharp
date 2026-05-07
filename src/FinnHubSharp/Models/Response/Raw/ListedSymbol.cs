@@ -1,28 +1,28 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace FinnHubSharp.DataModels.Response.Raw
+namespace FinnHubSharp.Models.Response.Raw
 {
     public class ListedSymbol
     {
-        [JsonProperty("currency")]
+        [JsonPropertyName("currency")]
         public string Currency { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("displaySymbol")]
+        [JsonPropertyName("displaySymbol")]
         public string DisplaySymbol { get; set; }
 
-        [JsonProperty("figi")]
+        [JsonPropertyName("figi")]
         public string Figi { get; set; }
 
-        [JsonProperty("mic")]
+        [JsonPropertyName("mic")]
         public string Mic { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 }

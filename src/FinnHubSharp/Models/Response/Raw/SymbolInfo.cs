@@ -1,29 +1,29 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace FinnHubSharp.DataModels.Response.Raw
+namespace FinnHubSharp.Models.Response.Raw
 {
     public class SymbolInfo
     {
-        [JsonProperty("count")]
+        [JsonPropertyName("count")]
         public long Count { get; set; }
 
-        [JsonProperty("result")]
+        [JsonPropertyName("result")]
         public List<Result> Result { get; set; }
     }
 
     public partial class Result
     {
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("displaySymbol")]
+        [JsonPropertyName("displaySymbol")]
         public string DisplaySymbol { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 }

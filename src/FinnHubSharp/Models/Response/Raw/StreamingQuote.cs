@@ -1,32 +1,32 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace FinnHubSharp.DataModels.Response.Raw
+namespace FinnHubSharp.Models.Response.Raw
 {
     public class StreamingQuote
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public List<Data> Data { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }  
     }
 
     public class Data
     {
-        [JsonProperty("p")]
+        [JsonPropertyName("p")]
         public double Price { get; set; }
 
-        [JsonProperty("s")]
+        [JsonPropertyName("s")]
         public string Symbol { get; set; }
 
-        [JsonProperty("t")]
+        [JsonPropertyName("t")]
         public long Timestamp { get; set; }
 
-        [JsonProperty("v")]
+        [JsonPropertyName("v")]
         public double Volume { get; set; }
         
-        [JsonProperty("c")]
+        [JsonPropertyName("c")]
         public string TradeCondition { get; set; }
     }
 }

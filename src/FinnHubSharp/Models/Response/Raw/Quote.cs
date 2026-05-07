@@ -1,25 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace FinnHubSharp.DataModels.Response.Raw
+namespace FinnHubSharp.Models.Response.Raw
 {
     public class Quote
     {
-        [JsonProperty("c")]
+        [JsonPropertyName("c")]
         public double CurrentPrice { get; set; }
 
-        [JsonProperty("h")]
+        [JsonPropertyName("h")]
         public double High { get; set; }
 
-        [JsonProperty("l")]
+        [JsonPropertyName("l")]
         public double Low { get; set; }
 
-        [JsonProperty("o")]
+        [JsonPropertyName("o")]
         public double Open { get; set; }
 
-        [JsonProperty("pc")]
+        [JsonPropertyName("pc")]
         public double PreviousClose { get; set; }
 
-        [JsonProperty("t")]
+        [JsonPropertyName("t")]
         public long Timestamp { get; set; }
     }
 }

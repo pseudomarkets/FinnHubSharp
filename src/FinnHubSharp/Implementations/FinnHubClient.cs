@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FinnHubSharp.DataModels.Configuration;
-using FinnHubSharp.DataModels.Response.FinnHub;
-using FinnHubSharp.DataModels.Response.Raw;
 using FinnHubSharp.Interfaces;
-using Newtonsoft.Json;
+using FinnHubSharp.Models.Response.FinnHub;
+using FinnHubSharp.Models.Response.Raw;
+using System.Text.Json;
+using FinnHubSharp.Models.Configuration;
 
 namespace FinnHubSharp.Implementations
 {
@@ -33,7 +33,7 @@ namespace FinnHubSharp.Implementations
                 var response = await _client.GetAsync(endpoint);
                 string responseString = await response.Content.ReadAsStringAsync();
                 
-                var jsonResponse = JsonConvert.DeserializeObject<Quote>(responseString);
+                var jsonResponse = JsonSerializer.Deserialize<Quote>(responseString);
                 quote.Quote = jsonResponse;
                 quote.ResponseCode = (int)response.StatusCode;
 
@@ -61,7 +61,7 @@ namespace FinnHubSharp.Implementations
                 var response = await _client.GetAsync(endpoint);
                 
                 string responseString = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonConvert.DeserializeObject<SymbolInfo>(responseString);
+                var jsonResponse = JsonSerializer.Deserialize<SymbolInfo>(responseString);
                 
                 symbolInfo.SymbolInfo = jsonResponse;
                 symbolInfo.ResponseCode = (int)response.StatusCode;
@@ -89,7 +89,7 @@ namespace FinnHubSharp.Implementations
                 var response = await _client.GetAsync(endpoint);
                 
                 string responseString = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonConvert.DeserializeObject<List<ListedSymbol>>(responseString);
+                var jsonResponse = JsonSerializer.Deserialize<List<ListedSymbol>>(responseString);
 
                 listedSymbols.ListedSymbols = jsonResponse;
                 listedSymbols.ResponseCode = (int)response.StatusCode;

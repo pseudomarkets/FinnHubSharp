@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Net.Http;
 using System.Net.WebSockets;
+using System.Text.Json;
 using System.Threading.Tasks;
-using FinnHubSharp.DataModels.Configuration;
-using FinnHubSharp.DataModels.Request;
 using FinnHubSharp.Implementations;
-using Newtonsoft.Json;
+using FinnHubSharp.Models.Configuration;
+using FinnHubSharp.Models.Request;
 
 namespace FinnHubSharpConsole
 {
@@ -36,7 +36,7 @@ namespace FinnHubSharpConsole
             {
                 await foreach (var nextData in data)
                 {
-                    nextData?.Data?.ForEach(x => Console.WriteLine(JsonConvert.SerializeObject(x)));
+                    nextData?.Data?.ForEach(x => Console.WriteLine(JsonSerializer.Serialize(x)));
                 }
             }
         }

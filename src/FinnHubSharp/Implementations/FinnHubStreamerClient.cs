@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using FinnHubSharp.DataModels.Request;
-using FinnHubSharp.DataModels.Response;
-using FinnHubSharp.DataModels.Response.Raw;
 using FinnHubSharp.Interfaces;
-using Newtonsoft.Json;
+using FinnHubSharp.Models.Request;
+using FinnHubSharp.Models.Response.Raw;
 
 namespace FinnHubSharp.Implementations
 {
@@ -36,7 +35,7 @@ namespace FinnHubSharp.Implementations
                     await socket.ConnectAsync(new Uri($"{_baseUrl}?token={_apiKey}"), CancellationToken.None);
                     foreach (var sub in subscriptions.ToList())
                     {
-                        await SendSubscription(socket, JsonConvert.SerializeObject(sub));
+                        await SendSubscription(socket, JsonSerializer.Serialize(sub));
                     }
                     yield return ReceiveStreamingData(socket);
                 }
@@ -74,7 +73,7 @@ namespace FinnHubSharp.Implementations
                     memoryStream.Seek(0, SeekOrigin.Begin);
                     using (var reader = new StreamReader(memoryStream, Encoding.UTF8))
                     {
-                        yield return JsonConvert.DeserializeObject<StreamingQuote>(await reader.ReadToEndAsync());
+                        yield return JsonSerializer.Deserialize<StreamingQuote>(await reader.ReadToEndAsync());
                     }
                 }
             } 
