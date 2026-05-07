@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   publish:
@@ -29,6 +29,13 @@ jobs:
       - name: Test
         run: dotnet test tests/FinnHubSharp.Tests/FinnHubSharp.Tests.csproj --configuration Release --no-build
 
+      - name: Read package version
+        id: package-version
+        run: |
+          version=$(dotnet msbuild src/FinnHubSharp/FinnHubSharp.csproj -getProperty:Version)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
       - name: Pack
         run: dotnet pack src/FinnHubSharp/FinnHubSharp.csproj --configuration Release --no-build --output artifacts
 
@@ -36,3 +43,12 @@ jobs:
         run: dotnet nuget push artifacts/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key "$NUGET_API_KEY" --skip-duplicate
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Create GitHub release
+        run: |
+          gh release create "${{ steps.package-version.outputs.tag }}" artifacts/*.nupkg \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "FinnHubSharp ${{ steps.package-version.outputs.tag }}" \
+            --notes "NuGet package for FinnHubSharp ${{ steps.package-version.outputs.version }}."
+        env:
+          GH_TOKEN: ${{ github.token }}
