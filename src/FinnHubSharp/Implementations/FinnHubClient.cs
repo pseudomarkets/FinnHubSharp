@@ -18,6 +18,11 @@ namespace FinnHubSharp.Implementations
 
         public FinnHubClient(HttpClient client, FinnHubSharpConfiguration configuration)
         {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             _client = client ?? new HttpClient();
             _apiKey = configuration.ApiKey ?? throw new ArgumentNullException(nameof(configuration.ApiKey));
             _baseUrl = configuration.BaseUrl ?? throw new ArgumentNullException(nameof(configuration.BaseUrl));
@@ -32,15 +37,16 @@ namespace FinnHubSharp.Implementations
                 var endpoint = $"{_baseUrl}/quote?symbol={symbol}&token={_apiKey}";
                 var response = await _client.GetAsync(endpoint);
                 string responseString = await response.Content.ReadAsStringAsync();
-                
-                var jsonResponse = JsonSerializer.Deserialize<Quote>(responseString);
-                quote.Quote = jsonResponse;
                 quote.ResponseCode = (int)response.StatusCode;
 
                 if (!response.IsSuccessStatusCode)
                 {
                     quote.ErrorMessage = responseString;
+                    return quote;
                 }
+
+                var jsonResponse = JsonSerializer.Deserialize<Quote>(responseString);
+                quote.Quote = jsonResponse;
                 
                 return quote;
             }
@@ -61,15 +67,16 @@ namespace FinnHubSharp.Implementations
                 var response = await _client.GetAsync(endpoint);
                 
                 string responseString = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonSerializer.Deserialize<SymbolInfo>(responseString);
-                
-                symbolInfo.SymbolInfo = jsonResponse;
                 symbolInfo.ResponseCode = (int)response.StatusCode;
                 
                 if (!response.IsSuccessStatusCode)
                 {
                     symbolInfo.ErrorMessage = responseString;
+                    return symbolInfo;
                 }
+
+                var jsonResponse = JsonSerializer.Deserialize<SymbolInfo>(responseString);
+                symbolInfo.SymbolInfo = jsonResponse;
             }
             catch (Exception e)
             {
@@ -89,15 +96,16 @@ namespace FinnHubSharp.Implementations
                 var response = await _client.GetAsync(endpoint);
                 
                 string responseString = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonSerializer.Deserialize<List<ListedSymbol>>(responseString);
-
-                listedSymbols.ListedSymbols = jsonResponse;
                 listedSymbols.ResponseCode = (int)response.StatusCode;
                 
                 if (!response.IsSuccessStatusCode)
                 {
                     listedSymbols.ErrorMessage = responseString;
+                    return listedSymbols;
                 }
+
+                var jsonResponse = JsonSerializer.Deserialize<List<ListedSymbol>>(responseString);
+                listedSymbols.ListedSymbols = jsonResponse;
                 
             }
             catch (Exception e)
