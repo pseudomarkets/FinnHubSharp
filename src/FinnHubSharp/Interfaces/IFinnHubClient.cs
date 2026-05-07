@@ -10,5 +10,9 @@ namespace FinnHubSharp.Interfaces
         Task<FinnHubSymbolInfo> GetSymbolInfoAsync(string symbolOrSecurityName);
 
         Task<FinnHubListedSymbols> GetAllSymbolsAsync(string exchange);
+
+        Task<FinnHubMarketStatus> GetMarketStatusAsync(string exchange);
+
+        Task<FinnHubMarketHoliday> GetMarketHolidaysAsync(string exchange);
     }
 }

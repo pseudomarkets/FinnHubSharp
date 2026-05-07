@@ -115,5 +115,63 @@ namespace FinnHubSharp.Implementations
             
             return listedSymbols;
         }
+
+        public async Task<FinnHubMarketStatus> GetMarketStatusAsync(string exchange)
+        {
+            var marketStatus = new FinnHubMarketStatus();
+
+            try
+            {
+                var endpoint = $"{_baseUrl}/stock/market-status?exchange={exchange}&token={_apiKey}";
+                var response = await _client.GetAsync(endpoint);
+
+                string responseString = await response.Content.ReadAsStringAsync();
+                marketStatus.ResponseCode = (int)response.StatusCode;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    marketStatus.ErrorMessage = responseString;
+                    return marketStatus;
+                }
+
+                var jsonResponse = JsonSerializer.Deserialize<MarketStatus>(responseString);
+                marketStatus.MarketStatus = jsonResponse;
+            }
+            catch (Exception e)
+            {
+                marketStatus.ErrorMessage = e.ToString();
+            }
+
+            return marketStatus;
+        }
+
+        public async Task<FinnHubMarketHoliday> GetMarketHolidaysAsync(string exchange)
+        {
+            var marketHoliday = new FinnHubMarketHoliday();
+
+            try
+            {
+                var endpoint = $"{_baseUrl}/stock/market-holiday?exchange={exchange}&token={_apiKey}";
+                var response = await _client.GetAsync(endpoint);
+
+                string responseString = await response.Content.ReadAsStringAsync();
+                marketHoliday.ResponseCode = (int)response.StatusCode;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    marketHoliday.ErrorMessage = responseString;
+                    return marketHoliday;
+                }
+
+                var jsonResponse = JsonSerializer.Deserialize<MarketHoliday>(responseString);
+                marketHoliday.MarketHoliday = jsonResponse;
+            }
+            catch (Exception e)
+            {
+                marketHoliday.ErrorMessage = e.ToString();
+            }
+
+            return marketHoliday;
+        }
     }
 }

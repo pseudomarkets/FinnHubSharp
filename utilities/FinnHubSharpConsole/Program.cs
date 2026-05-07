@@ -20,6 +20,13 @@ namespace FinnHubSharpConsole
             string apiKey = Console.ReadLine();
     
             var client = new FinnHubClient(httpClient, new FinnHubSharpConfiguration() {ApiKey = apiKey});
+            
+            var marketStatus = await client.GetMarketStatusAsync("US");
+            Console.WriteLine(marketStatus.MarketStatus.IsOpen);
+            
+            var marketHoliday = await client.GetMarketHolidaysAsync("US");
+            Console.WriteLine(marketHoliday.MarketHoliday.Data[0].EventName);
+            
             var quote = await client.GetQuoteAsync("AAPL");
             Console.WriteLine("Current price for AAPL: " + quote.Quote.CurrentPrice);
 

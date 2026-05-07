@@ -23,6 +23,8 @@ The solution includes `src`, `tests`, and `utilities` as solution folders for ID
 
 ## Install
 
+NuGet package: [FinnHubSharp](https://www.nuget.org/packages/FinnHubSharp/)
+
 ```bash
 dotnet add package FinnHubSharp
 ```
@@ -60,6 +62,8 @@ Available REST methods:
 - `GetQuoteAsync(string symbol)`
 - `GetSymbolInfoAsync(string symbolOrSecurityName)`
 - `GetAllSymbolsAsync(string exchange)`
+- `GetMarketStatusAsync(string exchange)`
+- `GetMarketHolidaysAsync(string exchange)`
 
 ### Streaming Client
 

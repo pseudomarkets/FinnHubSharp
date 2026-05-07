@@ -257,6 +257,119 @@ public class FinnHubClientTests
         handler.VerifyAll();
     }
 
+    [Test]
+    public async Task GetMarketStatusAsync_WhenResponseIsSuccessful_RequestsMarketStatusEndpointAndMapsResponse()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Get, $"{BaseUrl}/stock/market-status?exchange=US&token={ApiKey}")
+            .Respond("application/json", """
+            {
+              "exchange": "US",
+              "holiday": "",
+              "isOpen": true,
+              "session": "regular",
+              "state": "open",
+              "timezone": "America/New_York",
+              "sessionOpen": "2026-05-06 09:30:00",
+              "sessionClose": "2026-05-06 16:00:00",
+              "t": 1778088600
+            }
+            """);
+        var client = CreateClient(mockHttp);
+
+        var result = await client.GetMarketStatusAsync("US");
+
+        result.ResponseCode.ShouldBe((int)HttpStatusCode.OK);
+        result.ErrorMessage.ShouldBeNull();
+        result.MarketStatus.ShouldNotBeNull();
+        result.MarketStatus.Exchange.ShouldBe("US");
+        result.MarketStatus.Holiday.ShouldBe("");
+        result.MarketStatus.IsOpen.ShouldBeTrue();
+        result.MarketStatus.Session.ShouldBe("regular");
+        result.MarketStatus.State.ShouldBe("open");
+        result.MarketStatus.Timezone.ShouldBe("America/New_York");
+        result.MarketStatus.SessionOpen.ShouldBe("2026-05-06 09:30:00");
+        result.MarketStatus.SessionClose.ShouldBe("2026-05-06 16:00:00");
+        result.MarketStatus.Timestamp.ShouldBe(1778088600);
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Test]
+    public async Task GetMarketStatusAsync_WhenResponseIsUnsuccessful_SetsStatusCodeAndRawErrorMessage()
+    {
+        const string errorBody = """{"error":"Exchange not found"}""";
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Get, $"{BaseUrl}/stock/market-status?exchange=NOPE&token={ApiKey}")
+            .Respond(HttpStatusCode.BadRequest, "application/json", errorBody);
+        var client = CreateClient(mockHttp);
+
+        var result = await client.GetMarketStatusAsync("NOPE");
+
+        result.ResponseCode.ShouldBe((int)HttpStatusCode.BadRequest);
+        result.ErrorMessage.ShouldBe(errorBody);
+        result.MarketStatus.ShouldBeNull();
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Test]
+    public async Task GetMarketHolidaysAsync_WhenResponseIsSuccessful_RequestsMarketHolidayEndpointAndMapsResponse()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Get, $"{BaseUrl}/stock/market-holiday?exchange=US&token={ApiKey}")
+            .Respond("application/json", """
+            {
+              "exchange": "US",
+              "data": [
+                {
+                  "eventName": "Memorial Day",
+                  "atDate": "2026-05-25",
+                  "tradingHour": ""
+                },
+                {
+                  "eventName": "Independence Day",
+                  "atDate": "2026-07-03",
+                  "tradingHour": "09:30-13:00"
+                }
+              ],
+              "timezone": "America/New_York"
+            }
+            """);
+        var client = CreateClient(mockHttp);
+
+        var result = await client.GetMarketHolidaysAsync("US");
+
+        result.ResponseCode.ShouldBe((int)HttpStatusCode.OK);
+        result.ErrorMessage.ShouldBeNull();
+        result.MarketHoliday.ShouldNotBeNull();
+        result.MarketHoliday.Exchange.ShouldBe("US");
+        result.MarketHoliday.Timezone.ShouldBe("America/New_York");
+        result.MarketHoliday.Data.Count.ShouldBe(2);
+        result.MarketHoliday.Data[0].EventName.ShouldBe("Memorial Day");
+        result.MarketHoliday.Data[0].AtDate.ShouldBe("2026-05-25");
+        result.MarketHoliday.Data[0].TradingHour.ShouldBe("");
+        result.MarketHoliday.Data[1].EventName.ShouldBe("Independence Day");
+        result.MarketHoliday.Data[1].AtDate.ShouldBe("2026-07-03");
+        result.MarketHoliday.Data[1].TradingHour.ShouldBe("09:30-13:00");
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Test]
+    public async Task GetMarketHolidaysAsync_WhenResponseIsUnsuccessful_SetsStatusCodeAndRawErrorMessage()
+    {
+        const string errorBody = """{"error":"Exchange not found"}""";
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Get, $"{BaseUrl}/stock/market-holiday?exchange=NOPE&token={ApiKey}")
+            .Respond(HttpStatusCode.BadRequest, "application/json", errorBody);
+        var client = CreateClient(mockHttp);
+
+        var result = await client.GetMarketHolidaysAsync("NOPE");
+
+        result.ResponseCode.ShouldBe((int)HttpStatusCode.BadRequest);
+        result.ErrorMessage.ShouldBe(errorBody);
+        result.MarketHoliday.ShouldBeNull();
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
     private static FinnHubClient CreateClient(HttpMessageHandler handler) =>
         new(new HttpClient(handler), new FinnHubSharpConfiguration
         {

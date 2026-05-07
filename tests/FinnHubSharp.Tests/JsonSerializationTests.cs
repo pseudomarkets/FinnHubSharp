@@ -124,4 +124,59 @@ public class JsonSerializationTests
         data.Volume.ShouldBe(0.5);
         data.TradeCondition.ShouldBe("regular");
     }
+
+    [Test]
+    public void MarketStatus_DeserializesUsingFinnHubWireNames()
+    {
+        var marketStatus = JsonSerializer.Deserialize<MarketStatus>("""
+        {
+          "exchange": "US",
+          "holiday": "",
+          "isOpen": true,
+          "session": "regular",
+          "state": "open",
+          "timezone": "America/New_York",
+          "sessionOpen": "2026-05-06 09:30:00",
+          "sessionClose": "2026-05-06 16:00:00",
+          "t": 1778088600
+        }
+        """);
+
+        marketStatus.ShouldNotBeNull();
+        marketStatus.Exchange.ShouldBe("US");
+        marketStatus.Holiday.ShouldBe("");
+        marketStatus.IsOpen.ShouldBeTrue();
+        marketStatus.Session.ShouldBe("regular");
+        marketStatus.State.ShouldBe("open");
+        marketStatus.Timezone.ShouldBe("America/New_York");
+        marketStatus.SessionOpen.ShouldBe("2026-05-06 09:30:00");
+        marketStatus.SessionClose.ShouldBe("2026-05-06 16:00:00");
+        marketStatus.Timestamp.ShouldBe(1778088600);
+    }
+
+    [Test]
+    public void MarketHoliday_DeserializesUsingFinnHubWireNames()
+    {
+        var marketHoliday = JsonSerializer.Deserialize<MarketHoliday>("""
+        {
+          "exchange": "US",
+          "data": [
+            {
+              "eventName": "Memorial Day",
+              "atDate": "2026-05-25",
+              "tradingHour": ""
+            }
+          ],
+          "timezone": "America/New_York"
+        }
+        """);
+
+        marketHoliday.ShouldNotBeNull();
+        marketHoliday.Exchange.ShouldBe("US");
+        marketHoliday.Timezone.ShouldBe("America/New_York");
+        var holiday = marketHoliday.Data.ShouldHaveSingleItem();
+        holiday.EventName.ShouldBe("Memorial Day");
+        holiday.AtDate.ShouldBe("2026-05-25");
+        holiday.TradingHour.ShouldBe("");
+    }
 }
